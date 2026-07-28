@@ -1,0 +1,5 @@
+# informs that all projects within the folders are part of the same workspace
+
+packages:
+  - "apps/*"
+  - "packages/*"
