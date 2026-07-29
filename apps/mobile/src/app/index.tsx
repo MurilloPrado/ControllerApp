@@ -1,32 +1,62 @@
-import { Button, Text, View } from "react-native";
+import { Alert, Button, Text, TextInput, View } from "react-native";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { increment } from "@/store/slices/counterSlice";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "@/store/hooks";
+import { testSchema, TestSchema } from "@/schemas/testSchema";
 
 export default function HomeScreen() {
-  const dispatch = useAppDispatch();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TestSchema>({
+    resolver: zodResolver(testSchema),
+    defaultValues: {
+      name: "",
+    },
+  });
 
-  const counter = useAppSelector(
-    (state) => state.counter.value
-  );
+  function onSubmit(data: TestSchema) {
+    Alert.alert("Sucesso", `Olá, ${data.name}!`);
+  }
 
   return (
     <View
       style={{
         flex: 1,
         justifyContent: "center",
-        alignItems: "center",
-        gap: 20,
+        padding: 24,
+        gap: 12,
       }}
     >
-      <Text>Valor: {counter}</Text>
+      <Controller
+        control={control}
+        name="name"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            placeholder="Digite seu nome"
+            value={value}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            style={{
+              borderWidth: 1,
+              borderColor: "#ccc",
+              padding: 12,
+              borderRadius: 8,
+            }}
+          />
+        )}
+      />
+
+      {errors.name && (
+        <Text style={{ color: "red" }}>
+          {errors.name.message}
+        </Text>
+      )}
 
       <Button
-        title="Incrementar"
-        onPress={() => dispatch(increment())}
+        title="Enviar"
+        onPress={handleSubmit(onSubmit)}
       />
     </View>
   );
