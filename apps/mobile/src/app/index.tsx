@@ -1,25 +1,16 @@
-import { Screen } from "@/components/layout/Screen";
-import { Header } from "@/components/layout/Header";
-import { BottomNavigation } from "@/components/layout/BottomNavigation";
-import { useState } from "react";
+import { AppLayout } from "@/components/layout/AppLayout";
+import { Text } from "react-native";
 
-export default function TestScreen() {
-  const [current,setCurrent] = useState<any>("media");
-  console.log("TestScreen current:", current);
-
+export default function MediaScreen() {
   return (
-    <Screen>
-      <Header
-        title="Multimídia"
-        onPowerPress={() => console.log("Power")}
-        onSettingsPress={() => console.log("Settings")}
-      />
-
-      <BottomNavigation
-        current={current}
-        onChange={setCurrent}
-      />
-      
-    </Screen>
+    <AppLayout
+      title="Multimídia"
+      currentTab="media"
+      onPowerPress={() => console.log("Power")}
+      onSettingsPress={() => console.log("Settings")}
+      onTabChange={(tab) => console.log(tab)}
+    >
+      <Text>Conteúdo da tela</Text>
+    </AppLayout>
   );
 }
