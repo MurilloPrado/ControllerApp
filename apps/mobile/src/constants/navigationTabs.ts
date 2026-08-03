@@ -24,7 +24,7 @@ export const navigationTabs: {
   },
   {
     key: "tablet",
-    label: "Sketch",
+    label: "Tablet",
     icon: "create",
   },
 ];
