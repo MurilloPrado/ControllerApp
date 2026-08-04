@@ -1,4 +1,5 @@
 import { AppLayout } from "@/components/layout/AppLayout";
+import { DirectionPad } from "@/components/media/DirectionPad/DirectionPad";
 import { MediaController } from "@/components/media/MediaController";
 import { Text } from "react-native";
 
@@ -13,6 +14,7 @@ export default function MediaScreen() {
     >
       <Text>Conteúdo da tela</Text>
       <MediaController/>
+      <DirectionPad />
     </AppLayout>
   );
 }
