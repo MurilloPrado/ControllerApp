@@ -1,4 +1,5 @@
 import { AppLayout } from "@/components/layout/AppLayout";
+import { MediaController } from "@/components/media/MediaController";
 import { Text } from "react-native";
 
 export default function MediaScreen() {
@@ -11,6 +12,7 @@ export default function MediaScreen() {
       onTabChange={(tab) => console.log(tab)}
     >
       <Text>Conteúdo da tela</Text>
+      <MediaController/>
     </AppLayout>
   );
 }
