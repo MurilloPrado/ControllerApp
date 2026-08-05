@@ -22,9 +22,15 @@ export function MediaScreen() {
         </View>
 
         <View style={styles.bottomSection}>
-            <DirectionPad />
+            
+            <View style={styles.left}>
+                <DirectionPad />
+            </View>
+            
+            <View style={styles.right}>
+                <ActionButtons />
+            </View>
 
-            <ActionButtons />
         </View>
       </View>
     </AppLayout>

@@ -13,9 +13,17 @@ export const styles = StyleSheet.create({
 
   bottomSection: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
     alignItems: "center",
-    paddingHorizontal: 24,
-    paddingBottom: 32,
+    marginBottom: 60,
   },
+
+  left: {
+    flex: 1,
+    alignItems: "center",
+  },
+
+  right: {
+    flex: 1,
+    alignItems: "center",
+  }
 });
