@@ -11,7 +11,6 @@ export function AppLayout({
   children,
   title,
   currentTab,
-  onTabChange,
   onPowerPress,
   onSettingsPress,
 }: AppLayoutProps) {
@@ -29,7 +28,6 @@ export function AppLayout({
 
       <BottomNavigation
         current={currentTab}
-        onChange={onTabChange}
       />
     </Screen>
   );
