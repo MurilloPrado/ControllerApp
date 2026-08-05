@@ -1,30 +1,28 @@
-import { MaterialIcons } from "@expo/vector-icons";
+import { NavigationTabConfig } from "@/types/NavigationTab";
 
-import { NavigationTab } from "@/types/NavigationTab";
-
-export const navigationTabs: {
-  key: NavigationTab;
-  label: string;
-  icon: keyof typeof MaterialIcons.glyphMap;
-}[] = [
+export const navigationTabs: NavigationTabConfig[] = [
   {
     key: "media",
     label: "Media",
     icon: "settings-remote",
+    route: "/media",
   },
   {
     key: "mouse",
     label: "Mouse",
     icon: "mouse",
+    route: "/mouse",
   },
   {
     key: "keyboard",
     label: "Keyboard",
     icon: "keyboard",
+    route: "/keyboard",
   },
   {
     key: "tablet",
     label: "Tablet",
     icon: "create",
+    route: "/tablet",
   },
 ];
