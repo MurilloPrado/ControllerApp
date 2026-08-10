@@ -1,9 +1,9 @@
 import { View } from "react-native";
 
 import { AppLayout } from "@/components/layout/AppLayout";
-import { ActionButtons } from "@/components/media/ActionButtons";
-import { DirectionPad } from "@/components/media/DirectionPad";
-import { MediaController } from "@/components/media/MediaController";
+import { ActionButtons } from "@/features/media/components/ActionButtons";
+import { DirectionPad } from "@/features/media/components/DirectionPad";
+import { MediaController } from "@/features/media/components/MediaController";
 
 import { styles } from "./MediaScreen.styles";
 
