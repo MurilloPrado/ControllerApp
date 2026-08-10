@@ -9,33 +9,39 @@ import { HeaderProps } from "./Header.types";
 
 export function Header({
   title,
-  onPowerPress,
-  onSettingsPress,
+  leftAction,
+  rightAction,
 }: HeaderProps) {
   return (
     <View style={styles.container}>
       <View style={styles.side}>
-        <IconButton onPress={onPowerPress}>
-          <Ionicons
-            name="power-outline"
-            size={24}
-            color={colors.text}
-          />
-        </IconButton>
+        {leftAction && (
+          <IconButton onPress={leftAction.onPress}>
+            <Ionicons
+              name={leftAction.icon}
+              size={24}
+              color={colors.text}
+            />
+          </IconButton>
+        )}
       </View>
 
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.title}>
+          {title}
+        </Text>
       </View>
 
       <View style={styles.side}>
-        <IconButton onPress={onSettingsPress}>
-          <Ionicons
-            name="settings-outline"
-            size={24}
-            color={colors.text}
-          />
-        </IconButton>
+        {rightAction && (
+          <IconButton onPress={rightAction.onPress}>
+            <Ionicons
+              name={rightAction.icon}
+              size={24}
+              color={colors.text}
+            />
+          </IconButton>
+        )}
       </View>
     </View>
   );
