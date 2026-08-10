@@ -5,5 +5,5 @@ export const spacing = {
   lg: 16,
   xl: 24,
   "2xl": 32,
-  "3xl": 40,
+  "3xl": 150,
 };
