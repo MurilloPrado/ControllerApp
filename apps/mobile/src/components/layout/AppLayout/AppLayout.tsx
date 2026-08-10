@@ -18,8 +18,14 @@ export function AppLayout({
     <Screen>
       <Header
         title={title}
-        onPowerPress={onPowerPress}
-        onSettingsPress={onSettingsPress}
+        leftAction={{
+          icon: "power-outline",
+          onPress: onPowerPress,
+        }}
+        rightAction={{
+          icon: "settings-outline",
+          onPress: onSettingsPress,
+        }}
       />
 
       <View style={styles.content}>
