@@ -4,6 +4,11 @@ import { HeaderLayout } from "@/components/layout/HeaderLayout";
 import { DeviceCard } from "./components/DeviceCard";
 
 import { styles } from "./ConnectionScreen.styles";
+import { useState } from "react";
+import { EmptyState } from "./components/EmptyState";
+import { ConnectingState } from "./components/ConnectingState";
+
+type ConnectionView = "default" | "connecting";
 
 const onlineDevices = [
   {
@@ -30,7 +35,18 @@ const historyDevices = [
 ];
 
 export function ConnectionScreen() {
+  const [view, setView] = useState<ConnectionView>("default");
+
+  const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>(null);
+
   const recentDevices = historyDevices.slice(0, 5);
+
+  const selectedDevice = [
+    ...onlineDevices,
+    ...historyDevices,
+  ].find(
+    (device) => device.id === selectedDeviceId
+  );
 
   const handleAddDevice = () => {
     console.log("Adicionar dispositivo");
@@ -41,8 +57,33 @@ export function ConnectionScreen() {
   };
 
   const handleDevicePress = (id: string) => {
-    console.log("Selecionar dispositivo:", id);
+    setSelectedDeviceId(id);
+    setView("connecting");
   };
+  
+  const handleCancelConnection = () => {
+    setSelectedDeviceId(null);
+    setView("default");
+  };
+
+  // Empty state when there are no devices in history
+  if (historyDevices.length === 0) {
+    return (
+      <EmptyState
+        onConnect={handleAddDevice}
+      />
+    )
+  };
+
+  // Connecting state when a device is selected
+  if (view === "connecting" && selectedDevice) {
+    return (
+      <ConnectingState
+        deviceName={selectedDevice.name}
+        onCancel={handleCancelConnection}
+      />
+    );
+  }
 
   return (
     <HeaderLayout
