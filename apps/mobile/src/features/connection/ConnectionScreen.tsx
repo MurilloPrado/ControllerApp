@@ -8,6 +8,10 @@ import { useState } from "react";
 import { EmptyState } from "./components/EmptyState";
 import { ConnectingState } from "./components/ConnectingState";
 
+import { Button } from "@/components/ui/Button";
+import { DeviceStorage } from "./services/DeviceStorage";
+import { DesktopDevice } from "./types/DesktopDevice";
+
 type ConnectionView = "default" | "connecting";
 
 const onlineDevices = [
@@ -33,6 +37,32 @@ const historyDevices = [
     status: "offline" as const,
   },
 ];
+
+const handleTestSave = async () => {
+  const device: DesktopDevice = {
+    id: "pc-001",
+    name: "PC Escritório",
+    ip: "192.168.0.15",
+    port: 8080,
+    lastConnectedAt: new Date().toISOString(),
+  };
+
+  await DeviceStorage.saveDevice(device);
+
+  console.log("Dispositivo salvo!");
+};
+
+const handleTestLoad = async () => {
+  const devices = await DeviceStorage.getDevices();
+
+  console.log("Dispositivos salvos:", devices);
+};
+
+const handleTestRemove = async () => {
+  await DeviceStorage.removeDevice("pc-001");
+
+  console.log("Dispositivo removido!");
+};
 
 export function ConnectionScreen() {
   const [view, setView] = useState<ConnectionView>("default");
@@ -161,6 +191,23 @@ export function ConnectionScreen() {
             Não encontrou seu dispositivo?
           </Text>
         </Pressable>
+
+        <View style={styles.section}>
+          <Button
+            title="TESTAR SALVAR"
+            onPress={handleTestSave}
+          />
+
+          <Button
+            title="TESTAR LER"
+            onPress={handleTestLoad}
+          />
+
+          <Button
+            title="TESTAR REMOVER"
+            onPress={handleTestRemove}
+          />
+        </View>
 
       </ScrollView>
     </HeaderLayout>
