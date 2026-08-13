@@ -7,6 +7,7 @@ import { styles } from "./ConnectionScreen.styles";
 import { useState } from "react";
 import { EmptyState } from "./components/EmptyState";
 import { ConnectingState } from "./components/ConnectingState";
+import { useDevices } from "./hooks/useDevices"
 
 import { Button } from "@/components/ui/Button";
 import { DeviceStorage } from "./services/DeviceStorage";
@@ -14,62 +15,30 @@ import { DesktopDevice } from "./types/DesktopDevice";
 
 type ConnectionView = "default" | "connecting";
 
-const onlineDevices = [
-  {
-    id: "1",
-    name: "PC Escritório",
-    ip: "192.168.0.15",
-    status: "available" as const,
-  },
-  {
-    id: "2",
-    name: "Notebook",
-    ip: "192.168.0.20",
-    status: "available" as const,
-  },
-];
+const onlineDevices: DesktopDevice[] = [];
 
-const historyDevices = [
-  {
-    id: "3",
-    name: "PC Gamer",
-    ip: "192.168.0.30",
-    status: "offline" as const,
-  },
-];
-
-const handleTestSave = async () => {
-  const device: DesktopDevice = {
-    id: "pc-001",
-    name: "PC Escritório",
-    ip: "192.168.0.15",
-    port: 8080,
-    lastConnectedAt: new Date().toISOString(),
-  };
-
-  await DeviceStorage.saveDevice(device);
-
-  console.log("Dispositivo salvo!");
-};
-
-const handleTestLoad = async () => {
-  const devices = await DeviceStorage.getDevices();
-
-  console.log("Dispositivos salvos:", devices);
-};
-
-const handleTestRemove = async () => {
-  await DeviceStorage.removeDevice("pc-001");
-
-  console.log("Dispositivo removido!");
-};
+const historyDevices : DesktopDevice[] = [];
 
 export function ConnectionScreen() {
   const [view, setView] = useState<ConnectionView>("default");
 
   const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>(null);
 
-  const recentDevices = historyDevices.slice(0, 5);
+  const {
+    devices,
+    discoveredDevices,
+    isLoading,
+    isDiscovering,
+    discoverDevices
+  } = useDevices();
+
+  const handleTestDiscovery = async () => {
+    const foundDevices = await discoverDevices();
+
+    console.log("Dispositivos encontrados:", foundDevices);
+  };
+
+  const recentDevices = devices.slice(0, 5);
 
   const selectedDevice = [
     ...onlineDevices,
@@ -97,11 +66,11 @@ export function ConnectionScreen() {
   };
 
   // Empty state when there are no devices in history
-  if (historyDevices.length === 0) {
+  if (devices.length === 100) {
     return (
-      <EmptyState
-        onConnect={handleAddDevice}
-      />
+        <EmptyState
+          onConnect={handleAddDevice}
+        />
     )
   };
 
@@ -143,7 +112,6 @@ export function ConnectionScreen() {
                   key={device.id}
                   name={device.name}
                   ip={device.ip}
-                  status={device.status}
                   onPress={() =>
                     handleDevicePress(device.id)
                   }
@@ -169,7 +137,6 @@ export function ConnectionScreen() {
                   key={device.id}
                   name={device.name}
                   ip={device.ip}
-                  status={device.status}
                   onPress={() =>
                     handleDevicePress(device.id)
                   }
@@ -194,18 +161,13 @@ export function ConnectionScreen() {
 
         <View style={styles.section}>
           <Button
-            title="TESTAR SALVAR"
-            onPress={handleTestSave}
-          />
-
-          <Button
-            title="TESTAR LER"
-            onPress={handleTestLoad}
-          />
-
-          <Button
-            title="TESTAR REMOVER"
-            onPress={handleTestRemove}
+            title={
+              isDiscovering
+                ? "Procurando..."
+                : "TESTAR DESCOBERTA"
+            }
+            onPress={handleTestDiscovery}
+            disabled={isDiscovering}
           />
         </View>
 
