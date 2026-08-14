@@ -12,12 +12,9 @@ import { useDevices } from "./hooks/useDevices"
 import { Button } from "@/components/ui/Button";
 import { DeviceStorage } from "./services/DeviceStorage";
 import { DesktopDevice } from "./types/DesktopDevice";
+import { is } from "zod/v4/locales";
 
 type ConnectionView = "default" | "connecting";
-
-const onlineDevices: DesktopDevice[] = [];
-
-const historyDevices : DesktopDevice[] = [];
 
 export function ConnectionScreen() {
   const [view, setView] = useState<ConnectionView>("default");
@@ -40,12 +37,13 @@ export function ConnectionScreen() {
 
   const recentDevices = devices.slice(0, 5);
 
-  const selectedDevice = [
-    ...onlineDevices,
-    ...historyDevices,
-  ].find(
-    (device) => device.id === selectedDeviceId
-  );
+  const selectedDevice =
+    discoveredDevices.find(
+      (device) => device.id === selectedDeviceId,
+    ) ??
+    devices.find(
+      (device) => device.id === selectedDeviceId,
+    );
 
   const handleAddDevice = () => {
     console.log("Adicionar dispositivo");
@@ -105,9 +103,9 @@ export function ConnectionScreen() {
             Dispositivos online
           </Text>
 
-          {onlineDevices.length > 0 ? (
+          {discoveredDevices.length > 0 ? (
             <View style={styles.deviceList}>
-              {onlineDevices.map((device) => (
+              {discoveredDevices.map((device) => (
                 <DeviceCard
                   key={device.id}
                   name={device.name}
