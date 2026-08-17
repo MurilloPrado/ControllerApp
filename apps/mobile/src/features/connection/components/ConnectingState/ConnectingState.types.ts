@@ -1,4 +1,6 @@
+import { DiscoveredDevice } from "../../types/DiscoveredDevice";
+
 export interface ConnectingStateProps {
-  deviceName: string;
+  device: DiscoveredDevice;
   onCancel: () => void;
 }

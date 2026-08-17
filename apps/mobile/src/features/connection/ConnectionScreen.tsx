@@ -12,6 +12,7 @@ import { useDevices } from "./hooks/useDevices"
 import { Button } from "@/components/ui/Button";
 import { DeviceStorage } from "./services/DeviceStorage";
 import { DesktopDevice } from "./types/DesktopDevice";
+import { DiscoveredDevice } from "./types/DiscoveredDevice";
 import { is } from "zod/v4/locales";
 
 type ConnectionView = "default" | "connecting";
@@ -19,7 +20,7 @@ type ConnectionView = "default" | "connecting";
 export function ConnectionScreen() {
   const [view, setView] = useState<ConnectionView>("default");
 
-  const [selectedDeviceId, setSelectedDeviceId] = useState<string | null>(null);
+  const [selectedDeviceId, setSelectedDeviceId] = useState<DiscoveredDevice | null>(null);
 
   const {
     devices,
@@ -37,13 +38,7 @@ export function ConnectionScreen() {
 
   const recentDevices = devices.slice(0, 5);
 
-  const selectedDevice =
-    discoveredDevices.find(
-      (device) => device.id === selectedDeviceId,
-    ) ??
-    devices.find(
-      (device) => device.id === selectedDeviceId,
-    );
+  const selectedDevice = selectedDeviceId;
 
   const handleAddDevice = () => {
     console.log("Adicionar dispositivo");
@@ -53,11 +48,11 @@ export function ConnectionScreen() {
     console.log("Configurações");
   };
 
-  const handleDevicePress = (id: string) => {
-    setSelectedDeviceId(id);
+  const handleDevicePress = ( device: DiscoveredDevice, ) => {
+    setSelectedDeviceId(device);
     setView("connecting");
   };
-  
+    
   const handleCancelConnection = () => {
     setSelectedDeviceId(null);
     setView("default");
@@ -76,7 +71,7 @@ export function ConnectionScreen() {
   if (view === "connecting" && selectedDevice) {
     return (
       <ConnectingState
-        deviceName={selectedDevice.name}
+        device={selectedDevice}
         onCancel={handleCancelConnection}
       />
     );
@@ -111,7 +106,7 @@ export function ConnectionScreen() {
                   name={device.name}
                   ip={device.ip}
                   onPress={() =>
-                    handleDevicePress(device.id)
+                    handleDevicePress(device)
                   }
                 />
               ))}
@@ -136,7 +131,7 @@ export function ConnectionScreen() {
                   name={device.name}
                   ip={device.ip}
                   onPress={() =>
-                    handleDevicePress(device.id)
+                    handleDevicePress(device)
                   }
                 />
               ))}

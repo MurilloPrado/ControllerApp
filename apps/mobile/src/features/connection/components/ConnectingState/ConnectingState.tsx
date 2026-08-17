@@ -6,7 +6,7 @@ import { styles } from "./ConnectingState.styles";
 import { ConnectingStateProps } from "./ConnectingState.types";
 
 export function ConnectingState({
-  deviceName,
+  device,
   onCancel,
 }: ConnectingStateProps) {
   return (
@@ -20,7 +20,7 @@ export function ConnectingState({
       </Text>
 
       <Text style={styles.deviceName}>
-        {deviceName}
+        {device.name}
       </Text>
 
       <View style={styles.buttonContainer}>
