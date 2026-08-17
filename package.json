@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "concurrently --names mobile,desktop \"pnpm --filter mobile start\" \"pnpm --filter desktop dev\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "concurrently": "^10.0.5",
     "turbo": "^2.10.7",
     "typescript": "^7.0.2"
   }
