@@ -5,9 +5,9 @@ import {
   DISCOVERY_PROTOCOL_VERSION,
   DISCOVERY_REQUEST,
   DISCOVERY_RESPONSE,
-  DiscoveryRequest,
-  DiscoveryResponse,
-} from "./DiscoveryProtocol.js";
+  type DiscoveryRequest,
+  type DiscoveryResponse,
+} from "@remote-control/protocol";
 
 export class DiscoveryServer {
   private readonly socket = dgram.createSocket("udp4");
