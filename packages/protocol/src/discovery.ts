@@ -16,6 +16,7 @@ export interface DiscoveryResponse {
   device: {
     id: string;
     name: string;
+    ip: string;
     port: number;
   };
 }
