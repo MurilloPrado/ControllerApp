@@ -1,3 +1,4 @@
+import "dotenv/config";
 import dgram from "node:dgram";
 
 import {
@@ -38,8 +39,11 @@ export class DiscoveryServer {
             DISCOVERY_PROTOCOL_VERSION,
           device: {
             id: "desktop-001",
-            name: "PC Teste",
-            port: 8080,
+            name: process.env.DESKTOP_NAME ?? "PC Teste",
+            ip: process.env.DESKTOP_IP ?? "",
+            port: Number(
+              process.env.DESKTOP_CONTROL_PORT ?? 8080,
+            ),
           },
         };
 
